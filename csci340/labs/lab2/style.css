@@ -1,1 +1,39 @@
-h1 {color: red;}
+
+body {
+  background: #ffcccc;
+}
+
+header {
+  border: 2px solid #cc0000;
+  margin: 20px;
+  padding: 3px;
+  font-family: 'Dancing Script', cursive;
+  text-align: center;
+  background-image: url("https://i.pinimg.com/originals/47/e3/b6/47e3b65c7e1f906e1f11c5b23a18f3b6.jpg");
+  background-size: cover;
+  background-position: center;
+
+}
+
+header.jumbotron h1 {
+  color: #ff0000;
+}
+
+section {
+  background: #ffdddd;
+  font-family: 'Chilanka', cursive;
+}
+
+section .row img {
+  border: 2px solid #cc0000;
+  margin: 10px 0 10px;
+  padding: 0px;
+  width: 100%;
+  max-width: 250px;
+}
+
+footer {
+  font-family: 'Catamaran', sans-serif;
+  font-size: 12px;
+  padding: 40px 5px 0;
+}
