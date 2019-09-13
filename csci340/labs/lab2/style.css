@@ -16,12 +16,12 @@ header {
 
 header.jumbotron h1 {
   font-family: 'Dancing Script', cursive;
-  color: white;
+  color: #ffffff;
 }
 
 header.jumbotron h3 {
   font-family: 'Chilanka', cursive;
-  color: white;
+  color: #ffddee;
 }
 
 section {
