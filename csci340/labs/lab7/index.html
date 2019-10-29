@@ -10,38 +10,27 @@
     <link rel="stylesheet" href="style.css" type="text/css"/>
   </head>
   <body>
-<header class="jumbotron">
-  <h1>Hobbies</h1>
-</header>
+    <header class="jumbotron">
+      <h1>Hobbies</h1>
+    </header>
+    <section class="container">
+      <div class="row">
+        <div class="col-md-6" >
+          <h3>Set List</h3>
+          <ul>
+            <p id="setlist"></p>
+          </ul>
+        </div>
+        <div class="col-md-6" >
+          <h3>Card List</h3>
+          <ul>
+            <p id="cardlist"></p>
+          </ul>
+        </div>
+      </div>
+    </section>
 
-
-
-
-    <h3>Set List</h3>
-    <button id="test">click me</button>
-    <p></p>
-    <script>
-          $.ajax({dataType: "json",
-          url: "https://api.magicthegathering.io/v1/sets/",
-          success: function(results) {
-            //console.log(results);
-            var sets = results;
-            console.log("hello1");
-            console.log(sets);
-            console.log(sets["sets"].length);
-            for (var i=0; i<sets["sets"].length ; i++) {
-            console.log("hello");
-          //  console.log(sets[i]);
-            }
-      //      $("p").html(sets[i]["name"])
-          },
-          error: function(xhr,status,error) {
-            console.log(error);
-          }
-        });
-
-    </script>
-
+        <button id="test">click me</button>
 
 
 
