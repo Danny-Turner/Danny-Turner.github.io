@@ -7,13 +7,22 @@
     <link href="https://fonts.googleapis.com/css?family=Dancing+Script&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery.ajax-cross-origin.min.js"></script>
   </head>
   <body>
+<header class="jumbotron">
+  <h1>Hobbies</h1>
+</header>
+
+
+
+
     <h3>Set List</h3>
     <button id="test">click me</button>
     <p></p>
     <script>
-          $.ajax({dataType: "json", url: "https://api.magicthegathering.io/v1/sets/",
+          $.ajax({crossOrigin: true, dataType: "json",
+          url: "https://api.magicthegathering.io/v1/sets/",
           success: function(results) {
             //console.log(results);
             var sets = results;
