@@ -1,81 +1,91 @@
 $(document).ready(function (){
-var sets, cards
-  $.ajax({dataType: "json",
-  url: "https://api.magicthegathering.io/v1/sets/",
-  success: function(results) {
-    sets = results;
-    console.log(sets);
-    console.log(sets["sets"].length);
-  },
-  error: function(xhr,status,error) {
-    console.log(error);
-  }
-});
 
-$("#togglesets").click(function(){
-for (var i=0; i<sets["sets"].length ; i++) {
-  if (sets["sets"][i]["type"] == "core" || sets["sets"][i]["type"] =="expansion"
-   || sets["sets"][i]["type"] =="masters") {
-      console.log(i+" "+sets["sets"][i]["name"]+" "+sets["sets"][i]["type"]);
-      $("p#setlist").append("<li>"+sets["sets"][i]["name"]+"</li>");
-    };
-};
-$("#setlist li").click(function(){
-  console.log("https://api.magicthegathering.io/v1/cards?setName="+$(this).text());
   $.ajax({dataType: "json",
-  url: "https://api.magicthegathering.io/v1/cards?setName="+$(this).text(),
-  success: function(results) {
-    cards = results;
-    console.log(cards);
-    console.log(cards["cards"].length);
-  },
-  error: function(xhr,status,error) {
-    console.log(error);
-  }
+    url: "https://api.magicthegathering.io/v1/sets/",
+    success: function(results) {
+      createSetList(results);
+      setNameListener();
+    },
+    error: function(xhr,status,error) {
+      console.log(error);
+    }
   });
-});
 
-
-$("#togglecards").click(function(){
-  for (var i=0; i<cards["cards"].length ; i++) {
-      $("p#cardlist").append("<li>"+cards["cards"][i]["name"]+"</li>");
+  function createSetList(sets) {
+    sets["sets"].sort(function(a,b){return new Date(a["releaseDate"]).getTime()-new Date(b["releaseDate"]).getTime()});
+    for (var i=0; i< sets["sets"].length ; i++) {
+      if (sets["sets"][i]["type"] == "core"
+        || sets["sets"][i]["type"] == "expansion"
+        || sets["sets"][i]["type"] == "masters") {
+        $("p#setlist").append("<li>"+sets["sets"][i]["name"]+"</li>");
       };
-      $("#cardlist li").click(function(){
-        console.log("https://api.magicthegathering.io/v1/cards?name="+$(this).text())
-        var current
-        $.ajax({dataType: "json",
-        url: "https://api.magicthegathering.io/v1/cards?name="+$(this).text(),
+    };
+
+    for (var i=0; i< sets["sets"].length ; i++) {
+      if (sets["sets"][i]["type"] == "core"
+        || sets["sets"][i]["type"] == "expansion"
+        || sets["sets"][i]["type"] == "masters") {
+        $("#selectSet").append("<option value="+sets["sets"][i]["name"]+">"
+        +sets["sets"][i]["name"]+"</option>");
+      };
+    };
+
+  }
+
+  $("#selectSet").select(function(){
+    currentSet=$(this).text();
+    $("#setName").text(currentSet);
+    $("#cardlist li").remove();
+    $.ajax({dataType: "json",
+      url: "https://api.magicthegathering.io/v1/cards?setName="+currentSet,
+      success: function(results) {
+        createCardList(results, currentSet);
+        },
+      error: function(xhr,status,error) {
+        console.log(error);
+        }
+    });
+  });
+
+
+  function setNameListener(){
+    $("#setlist li").click(function(){
+      currentSet=$(this).text();
+      $("#setName").text(currentSet);
+      $("#cardlist li").remove();
+      $.ajax({dataType: "json",
+        url: "https://api.magicthegathering.io/v1/cards?setName="+currentSet,
         success: function(results) {
-          current = results;
-          console.log(current);
-          console.log(current["cards"][0]["imageUrl"]);
-          $("#cardpic").attr("src",current["cards"][0]["imageUrl"])
+          createCardList(results, currentSet);
+          },
+        error: function(xhr,status,error) {
+          console.log(error);
+          }
+      });
+    });
+  }
+
+
+  function createCardList(cards, currentSet) {
+    for (var i=0; i< cards["cards"].length ; i++) {
+        $("p#cardlist").append("<li>"+cards["cards"][i]["name"]+"</li>");
+        };
+    cardNameListener(currentSet);
+  }
+
+
+  function cardNameListener(currentSet) {
+    $("#cardlist li").click(function(){
+      $.ajax({dataType: "json",
+        url: "https://api.magicthegathering.io/v1/cards?name="+$(this).text()+"&setName="+currentSet,
+        success: function(results) {
+            $("#cardpic").attr("src",results["cards"][0]["imageUrl"])
         },
         error: function(xhr,status,error) {
           console.log(error);
         }
       });
-      });
-
-});
-
-
-});
-
-$("#setlist li").click(function(){
-  console.log("https://api.magicthegathering.io/v1/cards?setName="+this);
-  $.ajax({dataType: "json",
-  url: "https://api.magicthegathering.io/v1/cards?setName="+this,
-  success: function(results) {
-    sets = results;
-    console.log(sets);
-    console.log(sets["sets"].length);
-  },
-  error: function(xhr,status,error) {
-    console.log(error);
+    });
   }
-});
-
-});
 
 });
