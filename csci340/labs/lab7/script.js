@@ -1,11 +1,17 @@
 $(document).ready(function (){
 
+  jQuery.ajaxPrefilter(function(options) {
+    if (options.crossDomain && jQuery.support.cors) {
+        options.url = 'https://cors-anywhere.herokuapp.com/' + options.url;
+    }
+  });
+
   setDateListener();
 
-  $.ajax({crossOrign: true,
+  $.ajax({//crossOrign: true,
     dataType: "json",
     url: "https://api.magicthegathering.io/v1/sets/",
-    context: {},
+    //context: {},
     success: function(results) {
       console.log(results);
       populateSetDropDown(results);
@@ -61,10 +67,10 @@ $(document).ready(function (){
       $("#setName").text(currentSet);
       $("#instructions").text("(Select a Card for Details)");
       $("#cardlist li").remove();
-      $.ajax({
+      $.ajax({//crossOrign: true,
         dataType: "json",
         url: "https://api.magicthegathering.io/v1/cards?setName="+currentSet,
-        context: {},
+        //context: {},
         success: function(results) {
           createCardList(results, currentSet);
           },
@@ -89,10 +95,10 @@ $(document).ready(function (){
 
   function cardNameListener(currentSet) {
     $("#cardlist li").click(function(){
-      $.ajax({crossOrign: true,
+      $.ajax({//crossOrign: true,
         dataType: "json",
         url: "https://api.magicthegathering.io/v1/cards?name="+$(this).text()+"&setName="+currentSet,
-        context: {},
+        //context: {},
         success: function(results) {
           console.log(results);
           for (var i = 0; i < results["cards"].length; i++) {
