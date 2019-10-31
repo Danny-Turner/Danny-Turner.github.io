@@ -12,7 +12,27 @@ h3 {
 }
 
 body {
-  background-color: #002222;
+  background-color: #002233;
   margin: 30px;
   color: white;
+}
+
+#chooseSet {
+  font-family: 'Catamaran', cursive;
+  margin-top: 25px;
+}
+
+#chooseDate {
+  font-family: 'Catamaran', cursive;
+  margin-top: 25px;
+}
+
+#cardpic {
+  border: 4px groove #ffffff;
+}
+
+#astronomyPic {
+  width : 300px;
+  border: 4px groove #ffffff;
+  margin-bottom : 5px;
 }
