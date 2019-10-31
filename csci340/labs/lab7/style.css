@@ -7,14 +7,18 @@ header {
   background-position: center;
 }
 
-h3 {
-  font-family: 'Chilanka', cursive;
-}
-
 body {
   background-color: #002233;
   margin: 30px;
   color: white;
+}
+
+h1 {
+    font-family: 'Chilanka', cursive;
+}
+
+h3 {
+  font-family: 'Chilanka', cursive;
 }
 
 #chooseSet {
@@ -27,7 +31,6 @@ body {
   margin-top: 25px;
 }
 
-
 #cardpic {
   border: 4px groove #ffffff;
 }
@@ -39,7 +42,6 @@ body {
 }
 
 #pickDate {
-  background: #007777;
   background: #ffffff;
   color: #000000;
 }

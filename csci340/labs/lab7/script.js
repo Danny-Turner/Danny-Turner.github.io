@@ -6,21 +6,9 @@ $(document).ready(function (){
     }
   });
 
-  setDateListener();
 
-  $.ajax({//crossOrign: true,
-    dataType: "json",
-    url: "https://api.magicthegathering.io/v1/sets/",
-    //context: {},
-    success: function(results) {
-      console.log(results);
-      populateSetDropDown(results);
-      setDropDownListener();
-    },
-    error: function(xhr,status,error) {
-      console.log(error);
-    }
-  });
+  setDateListener();
+  initializeCardDropDown();
 
 
   function setDateListener() {
@@ -31,12 +19,28 @@ $(document).ready(function (){
         success: function(results) {
           console.log(results);
           $("#astronomyPic").attr("src",results["url"])
+          $("#astronomyPic").attr("alt",results["title"])
           $("#astronomyDesc").text(results["explanation"])
           },
         error: function(xhr,status,error) {
           console.log(error);
           }
       });
+    });
+  }
+
+
+  function initializeCardDropDown(){
+    $.ajax({dataType: "json",
+      url: "https://api.magicthegathering.io/v1/sets/",
+      success: function(results) {
+        console.log(results);
+        populateSetDropDown(results);
+        setDropDownListener();
+      },
+      error: function(xhr,status,error) {
+        console.log(error);
+      }
     });
   }
 
@@ -67,10 +71,9 @@ $(document).ready(function (){
       $("#setName").text(currentSet);
       $("#instructions").text("(Select a Card for Details)");
       $("#cardlist li").remove();
-      $.ajax({//crossOrign: true,
-        dataType: "json",
+      $("li#cardlist").append("<li>Generating Card List...</li>");
+      $.ajax({dataType: "json",
         url: "https://api.magicthegathering.io/v1/cards?setName="+currentSet,
-        //context: {},
         success: function(results) {
           createCardList(results, currentSet);
           },
@@ -82,9 +85,8 @@ $(document).ready(function (){
   }
 
 
-
-
   function createCardList(cards, currentSet) {
+    $("#cardlist li").remove();
     for (var i=0; i< cards["cards"].length ; i++) {
         $("li#cardlist").append("<li>"+cards["cards"][i]["name"]+"</li>");
         };
@@ -92,19 +94,16 @@ $(document).ready(function (){
   }
 
 
-
   function cardNameListener(currentSet) {
     $("#cardlist li").click(function(){
-      $.ajax({//crossOrign: true,
-        dataType: "json",
+      $.ajax({dataType: "json",
         url: "https://api.magicthegathering.io/v1/cards?name="+$(this).text()+"&setName="+currentSet,
-        //context: {},
         success: function(results) {
-          console.log(results);
           for (var i = 0; i < results["cards"].length; i++) {
               console.log(results["cards"][i]["imageUrl"]);
               if (results["cards"][i]["imageUrl"]!=null){
                 $("#cardpic").attr("src",results["cards"][i]["imageUrl"])
+                $("#cardpic").attr("alt",results["cards"][i]["name"])
               }
             }
         },
