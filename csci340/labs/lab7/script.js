@@ -8,34 +8,11 @@ $(document).ready(function (){
     context: {},
     success: function(results) {
       console.log(results);
-
-var sets = results;
-      console.log("a"+sets);
-      console.log(results);
-      results["sets"].sort(function(a,b){return new Date(b["releaseDate"]).getTime() - new Date(a["releaseDate"]).getTime()});
-      for (var i=0; i< sets["sets"].length ; i++) {
-        if (results["sets"][i]["name"].search("Renaissance") == -1
-          && results["sets"][i]["name"].search("Rinascim") == -1
-          && results["sets"][i]["name"].search("Summer Magic") == -1
-          && results["sets"][i]["name"].search("Foreign") == -1
-          && results["sets"][i]["onlineOnly"] == false
-          && (results["sets"][i]["type"] == "core"
-          || results["sets"][i]["type"] == "expansion"
-          || results["sets"][i]["type"] == "masters")) {
-          $("#selectSet").append("<option value="+i+">"
-          +results["sets"][i]["name"]+"</option>");
-        };
-      };
-    $("#selectSet").val("Core Set 2020");
-
-
-//      populateSetDropDown(results);
+      populateSetDropDown(results);
       setDropDownListener();
     },
     error: function(xhr,status,error) {
       console.log(error);
-
-
     }
   });
 
@@ -59,7 +36,6 @@ var sets = results;
 
 
   function populateSetDropDown(sets) {
-    console.log("a"+sets);
     sets["sets"].sort(function(a,b){return new Date(b["releaseDate"]).getTime() - new Date(a["releaseDate"]).getTime()});
     for (var i=0; i< sets["sets"].length ; i++) {
       if (sets["sets"][i]["name"].search("Renaissance") == -1
@@ -75,7 +51,6 @@ var sets = results;
       };
     };
   $("#selectSet").val("Core Set 2020");
-
   }
 
 
@@ -86,8 +61,10 @@ var sets = results;
       $("#setName").text(currentSet);
       $("#instructions").text("(Select a Card for Details)");
       $("#cardlist li").remove();
-      $.ajax({dataType: "json",
+      $.ajax({
+        dataType: "json",
         url: "https://api.magicthegathering.io/v1/cards?setName="+currentSet,
+        context: {},
         success: function(results) {
           createCardList(results, currentSet);
           },
@@ -112,8 +89,10 @@ var sets = results;
 
   function cardNameListener(currentSet) {
     $("#cardlist li").click(function(){
-      $.ajax({dataType: "json",
+      $.ajax({crossOrign: true,
+        dataType: "json",
         url: "https://api.magicthegathering.io/v1/cards?name="+$(this).text()+"&setName="+currentSet,
+        context: {},
         success: function(results) {
           console.log(results);
           for (var i = 0; i < results["cards"].length; i++) {
