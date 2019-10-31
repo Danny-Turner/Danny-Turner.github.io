@@ -8,11 +8,34 @@ $(document).ready(function (){
     context: {},
     success: function(results) {
       console.log(results);
-      populateSetDropDown(results);
+
+var sets = results;
+      console.log("a"+sets);
+      console.log(results);
+      results["sets"].sort(function(a,b){return new Date(b["releaseDate"]).getTime() - new Date(a["releaseDate"]).getTime()});
+      for (var i=0; i< sets["sets"].length ; i++) {
+        if (results["sets"][i]["name"].search("Renaissance") == -1
+          && results["sets"][i]["name"].search("Rinascim") == -1
+          && results["sets"][i]["name"].search("Summer Magic") == -1
+          && results["sets"][i]["name"].search("Foreign") == -1
+          && results["sets"][i]["onlineOnly"] == false
+          && (results["sets"][i]["type"] == "core"
+          || results["sets"][i]["type"] == "expansion"
+          || results["sets"][i]["type"] == "masters")) {
+          $("#selectSet").append("<option value="+i+">"
+          +results["sets"][i]["name"]+"</option>");
+        };
+      };
+    $("#selectSet").val("Core Set 2020");
+
+
+//      populateSetDropDown(results);
       setDropDownListener();
     },
     error: function(xhr,status,error) {
       console.log(error);
+
+
     }
   });
 
