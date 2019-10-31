@@ -27,6 +27,7 @@ body {
   margin-top: 25px;
 }
 
+
 #cardpic {
   border: 4px groove #ffffff;
 }
@@ -35,4 +36,10 @@ body {
   width : 300px;
   border: 4px groove #ffffff;
   margin-bottom : 5px;
+}
+
+#pickDate {
+  background: #007777;
+  background: #ffffff;
+  color: #000000;
 }
